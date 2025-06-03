@@ -15,15 +15,4 @@ public class SpringbootApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SpringbootApplication.class, args);
 	}
-
 }
-
-// @RestController
-// @RequestMapping(path = "/")
-// class TestController{
-
-// 	@GetMapping(value="hello/{name}")
-// 	public String sayHello(@PathVariable(value="name") String name){
-// 		return "Hello "+ name;
-// 	}
-// }
