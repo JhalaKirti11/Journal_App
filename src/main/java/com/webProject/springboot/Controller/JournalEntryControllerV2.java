@@ -1,5 +1,6 @@
 package com.webProject.springboot.Controller;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -37,6 +38,7 @@ public class JournalEntryControllerV2 {
     @PostMapping
     public boolean postJournal(@RequestBody JournalEntity obj){
         // jeObj.put(obj.getId(), obj);
+        obj.setDate(LocalDateTime.now());
         jeserve.saveEntry(obj);
         return true;
     }
