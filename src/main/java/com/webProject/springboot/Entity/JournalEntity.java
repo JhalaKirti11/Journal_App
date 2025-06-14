@@ -1,26 +1,44 @@
 package com.webProject.springboot.Entity;
 
+import java.sql.Date;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document
 public class JournalEntity {
-    private long id;
+
+    @Id
+    private String id;
     private String title;
     private String content;
+    private Date date;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public JournalEntity(long id, String title, String content) {
+    public JournalEntity(String id, String title, Date date, String content) {
         this.id = id;
         this.title = title;
         this.content = content;
+        this.date = date;
     }
 
     public String getTitle() {
         return title;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public void setTitle(String title) {
@@ -35,13 +53,4 @@ public class JournalEntity {
         this.content = content;
     }
 
-    public static void remove(Long myId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'remove'");
-    }
-
-    public static void delete(Long myId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'delete'");
-    }
 }
