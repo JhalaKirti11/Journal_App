@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,17 +27,17 @@ public class JournalEntryControllerV2 {
     @Autowired
     private JournalEntryServices jeserve;
 
-    // private Map<Long, JournalEntity> jeObj = new HashMap<>();
+    // private Map<ObjectId, JournalEntity> jeObj = new HashMap<>();
 
     // Get All Journal Entries
     @GetMapping
-    public List<JournalEntity> getJournal(){
-        return null;
+    public List<JournalEntity> getJournal() {
+        return jeserve.getAll();
     }
 
     // Post A Journal Entry
     @PostMapping
-    public boolean postJournal(@RequestBody JournalEntity obj){
+    public boolean postJournal(@RequestBody JournalEntity obj) {
         // jeObj.put(obj.getId(), obj);
         obj.setDate(LocalDateTime.now());
         jeserve.saveEntry(obj);
@@ -45,17 +46,28 @@ public class JournalEntryControllerV2 {
 
     // Get Specific Journal Entry
     @GetMapping("id/{myId}")
-    public JournalEntity getSpecificEntity(@PathVariable Long myId){
-        return null;
+    public JournalEntity getSpecificEntity(@PathVariable ObjectId myId) {
+        return jeserve.findById(myId).orElse(null);
     }
 
     @DeleteMapping("id/{myId}")
-    public JournalEntity deleteEntry(@PathVariable Long myId){
-        return null;
+    public boolean deleteEntry(@PathVariable ObjectId myId) {
+        jeserve.deleteById(myId);
+        return true;
     }
 
     @PutMapping("id/{myId}")
-    public JournalEntity updateAnEntry(@PathVariable Long myId, @RequestBody JournalEntity obj ){
-        return null;
+    public JournalEntity updateAnEntry(@PathVariable ObjectId myId, @RequestBody JournalEntity newObj) {
+        JournalEntity old = jeserve.findById(myId).orElse(null);
+        System.out.println("Find out the old bean : "+ old);
+        if (old != null) {
+            old.setTitle(newObj.getTitle() != null && newObj.getTitle() != "" ? newObj.getTitle() : old.getTitle());
+            old.setContent(
+                    newObj.getContent() != null && newObj.getContent()!= "" ? newObj.getContent() : old.getContent());
+        }
+        System.out.println("updated");
+        jeserve.saveEntry(old);
+        System.out.println("yes "+old);
+        return old;
     }
 }
