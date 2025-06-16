@@ -1,6 +1,5 @@
 package com.webProject.springboot.Entity;
 
-import java.sql.Date;
 import java.time.LocalDateTime;
 
 import org.bson.types.ObjectId;
@@ -34,6 +33,10 @@ public class JournalEntity {
         return title;
     }
 
+       public void setTitle(String title) {
+        this.title = title;
+    }
+
     public LocalDateTime getDate() {
         return date;
     }
@@ -41,11 +44,7 @@ public class JournalEntity {
     public void setDate(LocalDateTime date) {
         this.date = date;
     }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
+ 
     public String getContent() {
         return content;
     }
