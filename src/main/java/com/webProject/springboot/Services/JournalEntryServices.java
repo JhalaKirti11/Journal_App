@@ -28,7 +28,8 @@ public class JournalEntryServices {
         return jerepo.findById(obj);
     }
 
-    public void deleteById(ObjectId obj){
+    public boolean deleteById(ObjectId obj){
         jerepo.deleteById(obj);
+        return true;
     }     
 }

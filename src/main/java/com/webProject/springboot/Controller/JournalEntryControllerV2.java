@@ -5,9 +5,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,37 +40,48 @@ public class JournalEntryControllerV2 {
 
     // Post A Journal Entry
     @PostMapping
-    public boolean postJournal(@RequestBody JournalEntity obj) {
-        // jeObj.put(obj.getId(), obj);
-        obj.setDate(LocalDateTime.now());
-        jeserve.saveEntry(obj);
-        return true;
+    public ResponseEntity<JournalEntity> postJournal(@RequestBody JournalEntity obj) {
+        try {
+            // jeObj.put(obj.getId(), obj);
+            obj.setDate(LocalDateTime.now());
+            jeserve.saveEntry(obj);
+            return new ResponseEntity<>(obj, HttpStatus.CREATED);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
     }
 
     // Get Specific Journal Entry
     @GetMapping("id/{myId}")
-    public JournalEntity getSpecificEntity(@PathVariable ObjectId myId) {
-        return jeserve.findById(myId).orElse(null);
+    public ResponseEntity<JournalEntity> getSpecificEntity(@PathVariable ObjectId myId) {
+        Optional<JournalEntity> res = jeserve.findById(myId);
+        if (res.isPresent()) {
+            return new ResponseEntity<>(res.get(), HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("id/{myId}")
-    public boolean deleteEntry(@PathVariable ObjectId myId) {
-        jeserve.deleteById(myId);
-        return true;
+    public ResponseEntity<?> deleteEntry(@PathVariable ObjectId myId) {
+        boolean res = jeserve.deleteById(myId);
+        if (res) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @PutMapping("id/{myId}")
-    public JournalEntity updateAnEntry(@PathVariable ObjectId myId, @RequestBody JournalEntity newObj) {
+    public ResponseEntity<?> updateAnEntry(@PathVariable ObjectId myId, @RequestBody JournalEntity newObj) {
         JournalEntity old = jeserve.findById(myId).orElse(null);
-        System.out.println("Find out the old bean : "+ old);
+        System.out.println("Find out the old bean : " + old);
         if (old != null) {
             old.setTitle(newObj.getTitle() != null && newObj.getTitle() != "" ? newObj.getTitle() : old.getTitle());
             old.setContent(
-                    newObj.getContent() != null && newObj.getContent()!= "" ? newObj.getContent() : old.getContent());
+                    newObj.getContent() != null && newObj.getContent() != "" ? newObj.getContent() : old.getContent());
+            jeserve.saveEntry(old);
+            return new ResponseEntity<>(old, HttpStatus.OK);
         }
-        System.out.println("updated");
-        jeserve.saveEntry(old);
-        System.out.println("yes "+old);
-        return old;
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
