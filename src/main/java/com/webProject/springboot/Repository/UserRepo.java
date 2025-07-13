@@ -4,6 +4,7 @@ import org.bson.types.ObjectId;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import com.webProject.springboot.Entity.UserEntity;
 
-public interface UserRepo extends MongoRepository<UserEntity, ObjectId>{
-    
+public interface UserRepo extends MongoRepository<UserEntity, ObjectId> {
+
+    UserEntity findByName(String name);
 }
