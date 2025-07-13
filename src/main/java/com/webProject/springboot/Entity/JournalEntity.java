@@ -6,26 +6,28 @@ import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
+import lombok.Data;
+// import lombok.AllArgsConstructor;
+// import lombok.Builder;
+
+// import lombok.EqualsAndHashCode;
+// import lombok.Getter;
 // import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.Value;
+// import lombok.Setter;
+// import lombok.ToString;
+// import lombok.Value;
 
 @Document
-// @Data => equivalent to all the below annotations
+@Data
 
 // @NoArgsConstructor
-@AllArgsConstructor
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
-@Value
-@Builder
+// @AllArgsConstructor
+// @Getter
+// @Setter
+// @ToString
+// @EqualsAndHashCode
+// @Value
+// @Builder
 public class JournalEntity {
 
     @Id
