@@ -32,7 +32,7 @@ public class JournalEntryControllerV2 {
     // private Map<ObjectId, JournalEntity> jeObj = new HashMap<>();
 
     // Get All Journal Entries
-    @GetMapping("{user}")
+    @GetMapping("{name}")
     public ResponseEntity<?> getJournalOfUser(@PathVariable String name){
         UserEntity user = user_serve.findByName(name);
         if(user != null){
