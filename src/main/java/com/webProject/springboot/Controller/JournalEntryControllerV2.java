@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.webProject.springboot.Entity.JournalEntity;
+import com.webProject.springboot.Entity.UserEntity;
 import com.webProject.springboot.Services.JournalEntryServices;
 
 @RestController
@@ -29,13 +31,22 @@ public class JournalEntryControllerV2 {
 
     @Autowired
     private JournalEntryServices jeserve;
+    @Autowired
+    private UserEntity userAdmin;
 
     // private Map<ObjectId, JournalEntity> jeObj = new HashMap<>();
 
     // Get All Journal Entries
-    @GetMapping
-    public List<JournalEntity> getJournal() {
-        return jeserve.getAll();
+    @GetMapping("{user}")
+    public ResponseEntity<?> getJournalOfUser(@PathVariable String user){
+        UserEntity user2 = userAdmin.findByName(user);
+        if(user2 != null){
+            List<JournalEntity> allEntries = user2.getJournalentries();
+            if(allEntries != null && !allEntries.isEmpty()){
+                return new ResponseEntity<>(allEntries, HttpStatus.OK);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     // Post A Journal Entry

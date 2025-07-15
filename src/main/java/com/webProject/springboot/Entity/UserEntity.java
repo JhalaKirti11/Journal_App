@@ -9,8 +9,6 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.mongodb.lang.NonNull;
-
-import jakarta.annotation.Nonnull;
 import jakarta.persistence.Id;
 import lombok.Data;
 
@@ -28,5 +26,10 @@ public class UserEntity {
 
     @DBRef
     private List<JournalEntity> journalentries = new ArrayList<>();
+
+    public UserEntity findByName(String user) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'findByName'");
+    }
 
 }
