@@ -3,12 +3,12 @@ package com.webProject.springboot.Services;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import com.webProject.springboot.Entity.UserEntity;
 import com.webProject.springboot.Repository.UserRepo;
 
-@Service
+@Component
 public class UserService {
     
     @Autowired

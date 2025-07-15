@@ -26,10 +26,4 @@ public class UserEntity {
 
     @DBRef
     private List<JournalEntity> journalentries = new ArrayList<>();
-
-    public UserEntity findByName(String user) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByName'");
-    }
-
 }
