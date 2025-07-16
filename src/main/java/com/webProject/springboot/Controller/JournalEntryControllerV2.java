@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -28,8 +29,6 @@ public class JournalEntryControllerV2 {
     private JournalEntryServices jeserve;
     @Autowired
     private UserService user_serve;
-
-    // private Map<ObjectId, JournalEntity> jeObj = new HashMap<>();
 
     // Get All Journal Entries of a user
     @GetMapping("{name}")
@@ -74,18 +73,18 @@ public class JournalEntryControllerV2 {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    // @PutMapping("id/{myId}")
-    // public ResponseEntity<?> updateAnEntry(@PathVariable ObjectId myId, @RequestBody JournalEntity newObj) {
-    //     JournalEntity old = jeserve.findById(myId).orElse(null);
-    //     System.out.println("Find out the old bean : " + old);
-    //     if (old != null) {
-    //         old.setTitle(newObj.getTitle() != null && newObj.getTitle() != "" ? newObj.getTitle() : old.getTitle());
-    //         old.setContent(
-    //                 newObj.getContent() != null && newObj.getContent() != "" ? newObj.getContent() : old.getContent());
-    //         jeserve.saveEntry(old);
-    //         return new ResponseEntity<>(old, HttpStatus.OK);
-    //     }
+    @PutMapping("id/{name}/{myId}")    //it's journal id
+    public ResponseEntity<?> updateAnEntry(@PathVariable ObjectId myId, @RequestBody JournalEntity newObj, @PathVariable String name) {
+        JournalEntity old = jeserve.findById(myId).orElse(null);
+        System.out.println("Find out the old bean : " + old);
+        if (old != null) {
+            old.setTitle(newObj.getTitle() != null && newObj.getTitle() != "" ? newObj.getTitle() : old.getTitle());
+            old.setContent(
+                    newObj.getContent() != null && newObj.getContent() != "" ? newObj.getContent() : old.getContent());
+            jeserve.saveEntry(old, name);
+            return new ResponseEntity<>(old, HttpStatus.OK);
+        }
 
-    //     return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    // }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
 }
