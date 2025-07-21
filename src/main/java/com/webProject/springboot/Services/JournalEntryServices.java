@@ -41,7 +41,8 @@ public class JournalEntryServices {
         UserEntity user = user_repo.findByName(name);
         if (user != null) {
             jerepo.deleteById(obj);
-            user.getJournalentries().removeIf(x -> x.equals(obj));
+            user.getJournalentries().removeIf(x -> x.getId().equals(obj));
+            user_repo.saveUser(user);
         }
         return true;
     }
