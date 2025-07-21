@@ -64,9 +64,9 @@ public class JournalEntryControllerV2 {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @DeleteMapping("id/{myId}")
-    public ResponseEntity<?> deleteEntry(@PathVariable ObjectId myId) {
-        boolean res = jeserve.deleteById(myId);
+    @DeleteMapping("id/{myId}/{name}")
+    public ResponseEntity<?> deleteEntry(@PathVariable ObjectId myId, @PathVariable String name) {
+        boolean res = jeserve.deleteById(myId, name);
         if (res) {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }

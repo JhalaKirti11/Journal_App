@@ -21,7 +21,7 @@ public class JournalEntryServices {
     @Autowired
     private UserService user_repo;
 
-    public void saveEntry(JournalEntity je, String username){
+    public void saveEntry(JournalEntity je, String username) {
         UserEntity user = user_repo.findByName(username);
         je.setDate(LocalDateTime.now());
         JournalEntity saved = jerepo.save(je);
@@ -29,16 +29,20 @@ public class JournalEntryServices {
         user_repo.saveUser(user);
     }
 
-    public List<JournalEntity> getAll(){
+    public List<JournalEntity> getAll() {
         return jerepo.findAll();
     }
 
-    public Optional<JournalEntity> findById(ObjectId obj){
+    public Optional<JournalEntity> findById(ObjectId obj) {
         return jerepo.findById(obj);
     }
 
-    public boolean deleteById(ObjectId obj){
-        jerepo.deleteById(obj);
+    public boolean deleteById(ObjectId obj, String name) {
+        UserEntity user = user_repo.findByName(name);
+        if (user != null) {
+            jerepo.deleteById(obj);
+            user.getJournalentries().removeIf(x -> x.equals(obj));
+        }
         return true;
-    }     
+    }
 }
