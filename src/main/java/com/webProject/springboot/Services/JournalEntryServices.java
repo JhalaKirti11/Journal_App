@@ -12,6 +12,8 @@ import com.webProject.springboot.Entity.JournalEntity;
 import com.webProject.springboot.Entity.UserEntity;
 import com.webProject.springboot.Repository.JournalEntryRepo;
 
+import jakarta.transaction.Transactional;
+
 @Component
 
 public class JournalEntryServices {
@@ -21,12 +23,18 @@ public class JournalEntryServices {
     @Autowired
     private UserService user_repo;
 
+    @Transactional
     public void saveEntry(JournalEntity je, String username) {
-        UserEntity user = user_repo.findByName(username);
-        je.setDate(LocalDateTime.now());
-        JournalEntity saved = jerepo.save(je);
-        user.getJournalentries().add(saved);
-        user_repo.saveUser(user);
+        try {
+            UserEntity user = user_repo.findByName(username);
+            je.setDate(LocalDateTime.now());
+            JournalEntity saved = jerepo.save(je);
+            user.getJournalentries().add(saved);
+            // user.setName(null);
+            user_repo.saveUser(user);
+        } catch (Exception e) {
+            System.out.println("Exception : " + e);
+        }
     }
 
     public List<JournalEntity> getAll() {
