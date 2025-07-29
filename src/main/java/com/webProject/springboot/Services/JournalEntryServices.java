@@ -7,12 +7,12 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.webProject.springboot.Entity.JournalEntity;
 import com.webProject.springboot.Entity.UserEntity;
 import com.webProject.springboot.Repository.JournalEntryRepo;
 
-import jakarta.transaction.Transactional;
 
 @Component
 

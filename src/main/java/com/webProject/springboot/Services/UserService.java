@@ -6,24 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.webProject.springboot.Entity.UserEntity;
-import com.webProject.springboot.Repository.UserRepo;
+import com.webProject.springboot.Repository.UserRepository;
 
 @Component
 public class UserService {
     
     @Autowired
-    public UserRepo userrepo;
+    public UserRepository user_repo;
 
     public void saveUser(UserEntity ue){
-        userrepo.save(ue);
+        user_repo.save(ue);
     }
 
     public List<UserEntity> getUsers(){
-        return userrepo.findAll();
+        return user_repo.findAll();
     }
 
-    public UserEntity findByName(String name) {
-        return userrepo.findByName(name);
+    public UserEntity findByName(String name){
+        return user_repo.findByName(name);
     }
 
 }
