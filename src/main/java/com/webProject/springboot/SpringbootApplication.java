@@ -10,8 +10,8 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
-@EnableTransactionManagement
 @SpringBootApplication
+@EnableTransactionManagement
 public class SpringbootApplication {
 
 	public static void main(String[] args) {
@@ -20,7 +20,6 @@ public class SpringbootApplication {
 
 	@Bean
 	public PlatformTransactionManager add(MongoDatabaseFactory dbfact){
-		
 		return new MongoTransactionManager(dbfact);
 	}
 }
